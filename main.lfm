@@ -38,9 +38,12 @@ object Form1: TForm1
       end>
     Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoShowSortGlyphs, hoVisible]
     TabOrder = 0
+    TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
     TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
     TreeOptions.SelectionOptions = [toFullRowSelect, toAlwaysSelectNode]
     OnBeforeCellPaint = vtEventLogBeforeCellPaint
+    OnCompareNodes = vtEventLogCompareNodes
+    OnFocusChanged = vtEventLogFocusChanged
     OnFreeNode = vtEventLogFreeNode
     OnGetText = vtEventLogGetText
   end

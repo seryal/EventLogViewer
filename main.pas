@@ -22,13 +22,15 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
+    procedure vtEventLogCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: integer);
+    procedure vtEventLogFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
     procedure vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure vtEventLogGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: string);
   private
     FEventlog: TsyEventLogReader;
     FFormatSettings: TFormatSettings;
-
+    FLastFocusFlag: boolean;
     procedure OnBeginUpdate(Sender: TObject);
     procedure OnEndUpdate(Sender: TObject);
     procedure OnEventLogRecord(Sender: TObject; ALogRecord: TsyEventLogRecord);
@@ -50,6 +52,7 @@ begin
   vtEventLog.NodeDataSize := sizeof(TsyEventLogRecord);
   FFormatSettings := DefaultFormatSettings;
   FFormatSettings.LongTimeFormat := 'hh:mm:ss';
+  FLastFocusFlag := True;
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -103,6 +106,21 @@ begin
   TargetCanvas.FillRect(CellRect);
 end;
 
+procedure TForm1.vtEventLogCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: integer);
+begin
+  if column = 1 then
+    Result := -1;
+end;
+
+procedure TForm1.vtEventLogFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
+begin
+  if Node = vtEventLog.GetLast() then
+    FLastFocusFlag := True
+  else
+    FLastFocusFlag := False;
+
+end;
+
 procedure TForm1.vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
   Data: PsyEventLogRecord;
@@ -143,13 +161,11 @@ var
   Node: PVirtualNode;
   Data: PsyEventLogRecord;
 begin
-  //  memo1.Lines.add(IntToStr(log.EventCount));
-  //Node := vtEventLog.InsertNode(nil, amInsertBefore);
-  node := vtEventLog.InsertNode(nil, amInsertBefore);
+  node := vtEventLog.AddChild(nil);
   Data := vtEventLog.GetNodeData(Node);
+  //  vtEventLog.;
   Data^ := ALogRecord;
   //  Memo1.Lines.Add(AMessage);
-
 end;
 
 procedure TForm1.OnBeginUpdate(Sender: TObject);
@@ -160,11 +176,23 @@ end;
 procedure TForm1.OnEndUpdate(Sender: TObject);
 begin
   vtEventLog.EndUpdate;
+  if FLastFocusFlag then
+  begin
+    vtEventLog.ClearSelection;
+    vtEventLog.FocusedNode := vtEventLog.GetLast();
+    vtEventLog.Selected[vtEventLog.GetLast()] := True;
+  end;
+  vtEventLog.Refresh;
   StatusBar1.Panels.Items[0].Text := IntToStr(FEventlog.EventCount);
 
 end;
 
 end.
+
+
+
+
+
 
 
 
