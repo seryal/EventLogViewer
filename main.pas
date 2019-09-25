@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, dateutils, Dialogs,
-  ComCtrls, ExtCtrls, Menus, ActnList, Windows, syeventlogreader, VirtualTrees;
+  ComCtrls, ExtCtrls, Menus, ActnList, PairSplitter, Windows, syeventlogreader,
+  VirtualTrees, AnchorDockPanel;
 
 type
 
@@ -25,14 +26,17 @@ type
     acOnTop: TAction;
     acShowHeaders: TAction;
     acShowStatus: TAction;
+    acDescription: TAction;
     ActionList1: TActionList;
     MainMenu1: TMainMenu;
+    Memo1: TMemo;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -43,10 +47,16 @@ type
     MenuItem9: TMenuItem;
     N2: TMenuItem;
     N1: TMenuItem;
+    pnlDescription: TPanel;
+    Splitter1: TSplitter;
     StatusBar1: TStatusBar;
     Timer1: TTimer;
     vtEventLog: TVirtualStringTree;
+    procedure acDescriptionExecute(Sender: TObject);
     procedure acExitExecute(Sender: TObject);
+    procedure acOnTopExecute(Sender: TObject);
+    procedure acShowHeadersExecute(Sender: TObject);
+    procedure acShowStatusExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -54,7 +64,7 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
-    procedure vtEventLogCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: integer);
+    procedure vtEventLogDblClick(Sender: TObject);
     procedure vtEventLogFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
     procedure vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure vtEventLogGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
@@ -99,6 +109,12 @@ begin
     MenuVisible := not MenuVisible;
     vtEventLog.SetFocus;
   end;
+  if (key = VK_ESCAPE) then
+  begin
+    acDescription.Checked := False;
+    acDescriptionExecute(self);
+    MenuVisible := False;
+  end;
 end;
 
 
@@ -111,6 +127,39 @@ end;
 procedure TForm1.acExitExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TForm1.acOnTopExecute(Sender: TObject);
+begin
+  if acOnTop.Checked then
+    FormStyle := fsSystemStayOnTop
+  else
+    FormStyle := fsNormal;
+
+end;
+
+procedure TForm1.acShowHeadersExecute(Sender: TObject);
+begin
+  if acShowHeaders.Checked then
+    vtEventLog.Header.Options := vtEventLog.Header.Options + [hoVisible]
+  else
+    vtEventLog.Header.Options := vtEventLog.Header.Options - [hoVisible];
+
+end;
+
+procedure TForm1.acShowStatusExecute(Sender: TObject);
+begin
+  StatusBar1.Visible := acShowStatus.Checked;
+end;
+
+procedure TForm1.acDescriptionExecute(Sender: TObject);
+begin
+  pnlDescription.Visible := acDescription.Checked;
+  if acDescription.Checked then
+    Splitter1.Height := 5
+  else
+    Splitter1.Height := 0;
+
 end;
 
 
@@ -160,19 +209,26 @@ begin
   TargetCanvas.FillRect(CellRect);
 end;
 
-procedure TForm1.vtEventLogCompareNodes(Sender: TBaseVirtualTree; Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: integer);
+procedure TForm1.vtEventLogDblClick(Sender: TObject);
 begin
-  if column = 1 then
-    Result := -1;
+  if not acDescription.Checked then
+  begin
+    acDescription.Checked := True;
+    acDescriptionExecute(self);
+  end;
 end;
 
 procedure TForm1.vtEventLogFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
+var
+  Data: PsyEventLogRecord;
 begin
   if Node = vtEventLog.GetLast() then
     FLastFocusFlag := True
   else
     FLastFocusFlag := False;
-
+  Data := vtEventLog.GetNodeData(Node);
+  if Assigned(Data) then
+    Memo1.Lines.Text := Data^.MessageText;
 end;
 
 procedure TForm1.vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -250,7 +306,6 @@ begin
 end;
 
 end.
-
 
 
 

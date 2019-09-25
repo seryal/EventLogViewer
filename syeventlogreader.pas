@@ -149,8 +149,7 @@ begin
         begin
           pnBytesNeeded := pnMinNumberOfBytesNeeded;
           ReallocMem(Buffer, pnBytesNeeded);
-          Res := ReadEventLogW(FEventLogHandle, EVENTLOG_SEQUENTIAL_READ or EVENTLOG_FORWARDS_READ, 0, Buffer,
-            pnBytesNeeded, pnBytesRead, pnMinNumberOfBytesNeeded);
+          Res := ReadEventLogW(FEventLogHandle, flags, 0, Buffer, pnBytesNeeded, pnBytesRead, pnMinNumberOfBytesNeeded);
 
         end;
         ERROR_HANDLE_EOF:
@@ -292,6 +291,7 @@ begin
   GetOldestEventLogRecord(FEventLogHandle, @Offset);
   RecNo := FEventCount + Offset;
   ReadLog(Recno);
+
 
 
 end;
