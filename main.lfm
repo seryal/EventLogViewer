@@ -1,19 +1,19 @@
 object Form1: TForm1
   Left = 455
-  Height = 489
+  Height = 447
   Top = 250
-  Width = 1049
-  Caption = 'Form1'
-  ClientHeight = 489
-  ClientWidth = 1049
+  Width = 1134
+  Caption = 'Event Log Viewer'
+  ClientHeight = 447
+  ClientWidth = 1134
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   object vtEventLog: TVirtualStringTree
     Left = 0
-    Height = 466
+    Height = 424
     Top = 0
-    Width = 1049
+    Width = 1134
     Align = alClient
     DefaultText = 'Node'
     Header.AutoSizeIndex = 0
@@ -47,12 +47,18 @@ object Form1: TForm1
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
-    Top = 466
-    Width = 1049
+    Top = 424
+    Width = 1134
     Panels = <    
       item
         Width = 50
       end>
     SimplePanel = False
+  end
+  object Timer1: TTimer
+    Interval = 500
+    OnTimer = Timer1Timer
+    left = 588
+    top = 141
   end
 end

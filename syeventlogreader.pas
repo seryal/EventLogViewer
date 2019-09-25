@@ -37,7 +37,8 @@ type
   TsyEventLogReader = class
   private
     FEventCount: cardinal;
-    FEventLog: THandle;
+    FLastEventRecord: cardinal;
+    FEventLogHandle: THandle;
     FComputerName: string;
     FLogName: string;
     FOnEventLogRecord: TsyOnEventLogRecord;
@@ -47,7 +48,7 @@ type
     procedure SetLogName(AValue: string);
     procedure OpenLog;
     procedure CloseLog;
-    procedure ReadLog();
+    procedure ReadLog(ARecNumber: integer);
     function GetMessageDllPath(ASource: string): string;
     function GetFormatMessage(AID: DWORD; var AArgs: PPWideChar; const ADllName: string): string;
   public
@@ -56,6 +57,7 @@ type
     property ComputerName: string read FComputerName write SetComputerName;
     property LogName: string read FLogName write SetLogName;
     procedure Start;
+    procedure Proceed;
     procedure Stop;
     property EventCount: cardinal read FEventCount write FEventCount;
     property OnEventLogRecord: TsyOnEventLogRecord read FOnEventLogRecord write FOnEventLogRecord;
@@ -87,24 +89,26 @@ end;
 
 procedure TsyEventLogReader.OpenLog;
 begin
-  if FEventLog = 0 then
-    FEventLog := OpenEventLogW(PWideChar(ComputerName), PWideChar(FLogName));
+  FEventCount := 0;
+  if FEventLogHandle = 0 then
+    FEventLogHandle := OpenEventLogW(PWideChar(ComputerName), PWideChar(FLogName));
 end;
 
 procedure TsyEventLogReader.CloseLog;
 begin
-  if FEventLog <> 0 then
+  if FEventLogHandle <> 0 then
   begin
-    CloseEventLog(FEventLog);
-    FEventLog := 0;
+    CloseEventLog(FEventLogHandle);
+    FEventLogHandle := 0;
   end;
 
 end;
 
-procedure TsyEventLogReader.ReadLog();
+procedure TsyEventLogReader.ReadLog(ARecNumber: integer);
 const
   MAX_BUFFER = $7FFFF;
 var
+  Flags: DWORD;
   Res: WINBOOL;
   pnBytesRead: DWORD;
   pnMinNumberOfBytesNeeded: DWORD;
@@ -121,18 +125,22 @@ var
   MessageDllPath: string;
   LogRecord: TsyEventLogRecord;
   tmp: string;
-
+  _ReadRec: integer;
 begin
+  buffer := nil;
   getMem(Buffer, MAX_BUFFER);
   // First Read for get required buffer size
   res := True;
-  FEventCount := 0;
-  if Assigned(FOnBeginUpdate) then
-    OnBeginUpdate(Self);
+  if ARecNumber = 0 then
+    Flags := EVENTLOG_SEQUENTIAL_READ or EVENTLOG_FORWARDS_READ
+  else
+    Flags := EVENTLOG_SEEK_READ or EVENTLOG_FORWARDS_READ;
+  _ReadRec := ARecNumber;
   while res do
   begin
-    Res := ReadEventLogW(FEventLog, EVENTLOG_SEQUENTIAL_READ or EVENTLOG_BACKWARDS_READ, 0, Buffer, MAX_BUFFER,
-      pnBytesRead, pnMinNumberOfBytesNeeded);
+    if Assigned(FOnBeginUpdate) then
+      OnBeginUpdate(Self);
+    Res := ReadEventLogW(FEventLogHandle, flags, _ReadRec, Buffer, MAX_BUFFER, pnBytesRead, pnMinNumberOfBytesNeeded);
     if not res then
     begin
       LastErr := GetLastError;
@@ -141,7 +149,9 @@ begin
         begin
           pnBytesNeeded := pnMinNumberOfBytesNeeded;
           ReallocMem(Buffer, pnBytesNeeded);
-          res := True;
+          Res := ReadEventLogW(FEventLogHandle, EVENTLOG_SEQUENTIAL_READ or EVENTLOG_FORWARDS_READ, 0, Buffer,
+            pnBytesNeeded, pnBytesRead, pnMinNumberOfBytesNeeded);
+
         end;
         ERROR_HANDLE_EOF:
         begin
@@ -154,7 +164,7 @@ begin
       // Data processing
       pRecord := Buffer;
       Args := nil;
-      while pRecord < Buffer + pnBytesRead do
+      while pointer(pRecord) < Buffer + pnBytesRead do
       begin
         OutStr := '';
         pStr := PWideChar(pointer(pRecord) + pRecord^.StringOffset);
@@ -186,14 +196,18 @@ begin
           LogRecord.EventType := pRecord^.EventType;
           FOnEventLogRecord(Self, LogRecord);
         end;
+        FLastEventRecord := pRecord^.RecordNumber;
+        _ReadRec := FLastEventRecord + 1;
         pRecord := PEVENTLOGRECORD(pointer(pRecord) + pRecord^.Length);
+
         Inc(FEventCount);
       end;
     end;
+
+    if Assigned(FOnEndUpdate) then
+      OnEndUpdate(Self);
   end;
   Freemem(Buffer);
-  if Assigned(FOnEndUpdate) then
-    OnEndUpdate(Self);
 end;
 
 
@@ -246,26 +260,40 @@ begin
     end;
   end;
   Result := OutString;
-
 end;
 
 constructor TsyEventLogReader.Create;
 begin
   ComputerName := '';
   LogName := 'Application';
-  FEventLog := 0;
+  FEventLogHandle := 0;
 end;
 
 destructor TsyEventLogReader.Destroy;
 begin
-  CloseEventLog(FEventLog);
+  Stop;
   inherited Destroy;
 end;
 
 procedure TsyEventLogReader.Start;
 begin
   OpenLog;
-  ReadLog;
+  ReadLog(0);
+end;
+
+procedure TsyEventLogReader.Proceed;
+var
+  Offset: DWORD;
+  Recno: integer;
+begin
+  GetNumberOfEventLogRecords(FEventLogHandle, @Offset);
+  if FEventCount >= Offset then
+    exit;
+  GetOldestEventLogRecord(FEventLogHandle, @Offset);
+  RecNo := FEventCount + Offset;
+  ReadLog(Recno);
+
+
 end;
 
 procedure TsyEventLogReader.Stop;

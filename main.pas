@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, dateutils,
-  Dialogs, ComCtrls, Windows, syeventlogreader, VirtualTrees;
+  Dialogs, ComCtrls, ExtCtrls, Windows, syeventlogreader, VirtualTrees;
 
 type
 
@@ -14,10 +14,12 @@ type
 
   TForm1 = class(TForm)
     StatusBar1: TStatusBar;
+    Timer1: TTimer;
     vtEventLog: TVirtualStringTree;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
     procedure vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
       Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
     procedure vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -55,6 +57,7 @@ begin
   FreeAndNil(FEventlog);
 end;
 
+
 procedure TForm1.FormShow(Sender: TObject);
 begin
   FEventlog := TsyEventLogReader.Create;
@@ -65,7 +68,11 @@ begin
   FEventlog.OnEndUpdate := @OnEndUpdate;
 
   FEventlog.Start;
-  StatusBar1.Panels.Items[0].Text := IntToStr(FEventlog.EventCount);
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  FEventlog.Proceed;
 end;
 
 procedure TForm1.vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
@@ -138,7 +145,7 @@ var
 begin
   //  memo1.Lines.add(IntToStr(log.EventCount));
   //Node := vtEventLog.InsertNode(nil, amInsertBefore);
-  node := vtEventLog.AddChild(nil);
+  node := vtEventLog.InsertNode(nil, amInsertBefore);
   Data := vtEventLog.GetNodeData(Node);
   Data^ := ALogRecord;
   //  Memo1.Lines.Add(AMessage);
@@ -153,6 +160,8 @@ end;
 procedure TForm1.OnEndUpdate(Sender: TObject);
 begin
   vtEventLog.EndUpdate;
+  StatusBar1.Panels.Items[0].Text := IntToStr(FEventlog.EventCount);
+
 end;
 
 end.
