@@ -1,0 +1,58 @@
+object Form1: TForm1
+  Left = 455
+  Height = 489
+  Top = 250
+  Width = 1049
+  Caption = 'Form1'
+  ClientHeight = 489
+  ClientWidth = 1049
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  object vtEventLog: TVirtualStringTree
+    Left = 0
+    Height = 466
+    Top = 0
+    Width = 1049
+    Align = alClient
+    DefaultText = 'Node'
+    Header.AutoSizeIndex = 0
+    Header.Columns = <    
+      item
+        Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable]
+        Position = 0
+        Text = 'Source'
+        Width = 150
+      end    
+      item
+        Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable]
+        Position = 1
+        Text = 'Date and Time'
+        Width = 120
+      end    
+      item
+        Options = [coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coEditable]
+        Position = 2
+        Text = 'Message'
+        Width = 1500
+      end>
+    Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoShowSortGlyphs, hoVisible]
+    TabOrder = 0
+    TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
+    TreeOptions.SelectionOptions = [toFullRowSelect, toAlwaysSelectNode]
+    OnBeforeCellPaint = vtEventLogBeforeCellPaint
+    OnFreeNode = vtEventLogFreeNode
+    OnGetText = vtEventLogGetText
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 466
+    Width = 1049
+    Panels = <    
+      item
+        Width = 50
+      end>
+    SimplePanel = False
+  end
+end
