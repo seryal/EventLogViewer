@@ -6,8 +6,11 @@ object Form1: TForm1
   Caption = 'Event Log Viewer'
   ClientHeight = 447
   ClientWidth = 1134
+  KeyPreview = True
+  Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   object vtEventLog: TVirtualStringTree
     Left = 0
@@ -63,5 +66,113 @@ object Form1: TForm1
     OnTimer = Timer1Timer
     left = 588
     top = 141
+  end
+  object MainMenu1: TMainMenu
+    left = 209
+    top = 96
+    object MenuItem1: TMenuItem
+      Caption = 'File'
+      object MenuItem2: TMenuItem
+        Action = acOpenLog
+      end
+      object MenuItem3: TMenuItem
+        Action = acOpenFile
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem4: TMenuItem
+        Action = acSaveLog
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem5: TMenuItem
+        Action = acExit
+      end
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Search'
+      object MenuItem7: TMenuItem
+        Action = acGotoTime
+      end
+      object MenuItem8: TMenuItem
+        Action = acFind
+      end
+      object MenuItem10: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem9: TMenuItem
+        Action = acFilter
+      end
+    end
+    object MenuItem11: TMenuItem
+      Caption = 'View'
+      object MenuItem12: TMenuItem
+        Action = acOnTop
+      end
+      object MenuItem13: TMenuItem
+        Action = acShowHeaders
+      end
+      object MenuItem14: TMenuItem
+        Action = acShowStatus
+      end
+    end
+  end
+  object ActionList1: TActionList
+    left = 428
+    top = 175
+    object acOpenLog: TAction
+      Category = 'File'
+      Caption = 'Open Log ...'
+    end
+    object acOpenFile: TAction
+      Category = 'File'
+      Caption = 'Open File ...'
+    end
+    object acSaveLog: TAction
+      Category = 'File'
+      Caption = 'Save Log'
+    end
+    object acClearLog: TAction
+      Category = 'File'
+      Caption = 'Clear Log'
+    end
+    object acExit: TAction
+      Category = 'File'
+      Caption = 'Exit'
+      OnExecute = acExitExecute
+    end
+    object acGotoTime: TAction
+      Category = 'Search'
+      Caption = 'Goto To Time ...'
+    end
+    object acFind: TAction
+      Category = 'Search'
+      Caption = 'Find Text ...'
+    end
+    object acFilter: TAction
+      Category = 'Search'
+      Caption = 'Filter ...'
+    end
+    object acSetTimeZone: TAction
+      Category = 'View'
+      Caption = 'Set Time Zone ...'
+    end
+    object acOnTop: TAction
+      Category = 'View'
+      Caption = 'On Top'
+      Checked = True
+    end
+    object acShowHeaders: TAction
+      Category = 'View'
+      Caption = 'Show Headers'
+      Checked = True
+    end
+    object acShowStatus: TAction
+      Category = 'View'
+      Caption = 'Show Status'
+      Checked = True
+    end
   end
 end

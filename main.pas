@@ -5,19 +5,51 @@ unit main;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, dateutils,
-  Dialogs, ComCtrls, ExtCtrls, Windows, syeventlogreader, VirtualTrees;
+  Classes, SysUtils, Forms, Controls, Graphics, StdCtrls, dateutils, Dialogs,
+  ComCtrls, ExtCtrls, Menus, ActnList, Windows, syeventlogreader, VirtualTrees;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
+    acOpenLog: TAction;
+    acOpenFile: TAction;
+    acSaveLog: TAction;
+    acClearLog: TAction;
+    acExit: TAction;
+    acGotoTime: TAction;
+    acFind: TAction;
+    acFilter: TAction;
+    acSetTimeZone: TAction;
+    acOnTop: TAction;
+    acShowHeaders: TAction;
+    acShowStatus: TAction;
+    ActionList1: TActionList;
+    MainMenu1: TMainMenu;
+    MenuItem1: TMenuItem;
+    MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
+    N2: TMenuItem;
+    N1: TMenuItem;
     StatusBar1: TStatusBar;
     Timer1: TTimer;
     vtEventLog: TVirtualStringTree;
+    procedure acExitExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
@@ -28,12 +60,17 @@ type
     procedure vtEventLogGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: string);
   private
+    FMenuVisible: boolean;
+    procedure SetMenuVisible(AValue: boolean);
+  private
     FEventlog: TsyEventLogReader;
     FFormatSettings: TFormatSettings;
     FLastFocusFlag: boolean;
     procedure OnBeginUpdate(Sender: TObject);
     procedure OnEndUpdate(Sender: TObject);
     procedure OnEventLogRecord(Sender: TObject; ALogRecord: TsyEventLogRecord);
+    property MenuVisible: boolean read FMenuVisible write SetMenuVisible;
+
   public
 
   end;
@@ -55,10 +92,27 @@ begin
   FLastFocusFlag := True;
 end;
 
+procedure TForm1.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+begin
+  if (ssAlt in Shift) then
+  begin
+    MenuVisible := not MenuVisible;
+    vtEventLog.SetFocus;
+  end;
+end;
+
+
+
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   FreeAndNil(FEventlog);
 end;
+
+procedure TForm1.acExitExecute(Sender: TObject);
+begin
+  Close;
+end;
+
 
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -69,8 +123,8 @@ begin
   FEventlog.OnEventLogRecord := @OnEventLogRecord;
   FEventlog.OnBeginUpdate := @OnBeginUpdate;
   FEventlog.OnEndUpdate := @OnEndUpdate;
-
   FEventlog.Start;
+  MenuVisible := False;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
@@ -152,6 +206,14 @@ begin
     2:
       CellText := Data^.MessageText;
   end;
+end;
+
+procedure TForm1.SetMenuVisible(AValue: boolean);
+begin
+  FMenuVisible := AValue;
+  MenuItem1.Visible := AValue;
+  MenuItem6.Visible := AValue;
+  MenuItem11.Visible := AValue;
 end;
 
 
