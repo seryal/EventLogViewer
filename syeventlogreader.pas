@@ -67,9 +67,6 @@ type
 
 implementation
 
-function FormatMessageW(dwFlags: DWORD; lpSource: LPCVOID; dwMessageId: DWORD; dwLanguageId: DWORD; lpBuffer: LPWSTR;
-  nSize: DWORD; Arguments: PWideChar): DWORD; external 'kernel32' Name 'FormatMessageW';
-
 { TsyEventLogReader }
 
 procedure TsyEventLogReader.SetComputerName(AValue: string);
@@ -88,10 +85,21 @@ begin
 end;
 
 procedure TsyEventLogReader.OpenLog;
+var
+  ALogName: WideString;
+  AComputerName: WideString;
+  err: DWORD;
 begin
   FEventCount := 0;
+  ALogName := FLogName;
+  AComputerName := FComputerName;
   if FEventLogHandle = 0 then
-    FEventLogHandle := OpenEventLogW(PWideChar(ComputerName), PWideChar(FLogName));
+    FEventLogHandle := OpenEventLogW(PWideChar(AComputerName), PWideChar(ALogName));
+  err := GetLastError;
+  if err <> 0 then
+  begin
+    RaiseLastWin32Error;
+  end;
 end;
 
 procedure TsyEventLogReader.CloseLog;
@@ -173,7 +181,9 @@ begin
         for i := 1 to pRecord^.NumStrings do
         begin
           PArgs^ := pStr;
-          OutStr := OutStr + pStr + #10#13;
+          OutStr := OutStr + pStr;
+          if i < pRecord^.NumStrings then
+            OutStr := OutStr + ' ';// #10#13;
           j := strlen(pStr);
           pStr := pStr + j + 1;
           Inc(PArgs);
@@ -181,8 +191,21 @@ begin
         Source := PWideChar(pointer(pRecord) + SizeOf(TEventLogRecord));
         MessageDllPath := GetMessageDllPath(Source);
         if MessageDllPath <> '' then
-          OutStr := GetFormatMessage(pRecord^.EventID, Args, MessageDllPath);
-
+        begin
+          tmp := '';
+          repeat
+            I := Pos(';', MessageDllPath);
+            if I <> 0 then
+            begin
+              tmp := tmp + GetFormatMessage(pRecord^.EventID, Args, Copy(MessageDllPath, 1, I - 1));
+              MessageDllPath := Copy(MessageDllPath, I + 1, MaxInt);
+            end
+            else
+              tmp := tmp + GetFormatMessage(pRecord^.EventID, Args, MessageDllPath);
+          until I = 0;
+        end;
+        if tmp <> '' then
+          OutStr := tmp;
         Freemem(Args);
         // Fire EVENT OnEventLogRecord;
         if Assigned(OnEventLogRecord) then
@@ -235,6 +258,8 @@ var
   FullDLLName: array [0..MAX_PATH] of char;
   wDllName: array [0..MAX_PATH] of char;
   OutString: WideString;
+  err: integer;
+  FormatFlag: DWORD;
 begin
   OutString := '';
   if ADllName <> '' then
@@ -245,11 +270,15 @@ begin
     begin
       try
         try
-          if FormatMessageW(FORMAT_MESSAGE_FROM_HMODULE or FORMAT_MESSAGE_ARGUMENT_ARRAY, Pointer(DllModule), AID,
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), @Buffer[0], 4096, @AArgs^) > 0 then
+          FormatFlag := FORMAT_MESSAGE_FROM_HMODULE or FORMAT_MESSAGE_FROM_SYSTEM or FORMAT_MESSAGE_ARGUMENT_ARRAY;
+          //          FormatFlag := FORMAT_MESSAGE_FROM_HMODULE or FORMAT_MESSAGE_ARGUMENT_ARRAY;
+          if FormatMessageW(FormatFlag, Pointer(DllModule), AID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            @Buffer[0], 4096, @AArgs^) > 0 then
           begin
             OutString := PWideChar(Buffer);
-          end;
+          end
+          else
+            err := GetLastError;
         except
           on e: Exception do
         end;
@@ -264,7 +293,7 @@ end;
 constructor TsyEventLogReader.Create;
 begin
   ComputerName := '';
-  LogName := 'Application';
+  LogName := 'System';
   FEventLogHandle := 0;
 end;
 
@@ -291,6 +320,7 @@ begin
   GetOldestEventLogRecord(FEventLogHandle, @Offset);
   RecNo := FEventCount + Offset;
   ReadLog(Recno);
+
 
 
 

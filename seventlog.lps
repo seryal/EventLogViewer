@@ -3,27 +3,27 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="11"/>
-    <BuildModes Active="Debug"/>
-    <Units Count="21">
+    <BuildModes Active="Release"/>
+    <Units Count="22">
       <Unit0>
         <Filename Value="seventlog.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <CursorPos X="51" Y="16"/>
-        <UsageCount Value="60"/>
+        <CursorPos Y="15"/>
+        <UsageCount Value="67"/>
       </Unit0>
       <Unit1>
         <Filename Value="main.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="276"/>
-        <CursorPos X="5" Y="308"/>
-        <UsageCount Value="60"/>
+        <TopLine Value="354"/>
+        <CursorPos X="20" Y="381"/>
+        <UsageCount Value="67"/>
         <Bookmarks Count="1">
-          <Item0 X="32" Y="270" ID="1"/>
+          <Item0 Y="200" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -31,9 +31,10 @@
       <Unit2>
         <Filename Value="syeventlogreader.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
-        <CursorPos X="64" Y="13"/>
-        <UsageCount Value="50"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="67"/>
+        <CursorPos Y="102"/>
+        <UsageCount Value="57"/>
         <Bookmarks Count="1">
           <Item0 X="24" Y="53" ID="2"/>
         </Bookmarks>
@@ -43,8 +44,8 @@
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\defines.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2325"/>
-        <CursorPos X="84" Y="2350"/>
-        <UsageCount Value="9"/>
+        <CursorPos X="6" Y="2340"/>
+        <UsageCount Value="10"/>
       </Unit3>
       <Unit4>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\struct.inc"/>
@@ -86,10 +87,11 @@
       </Unit8>
       <Unit9>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\errors.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="39"/>
-        <CursorPos Y="39"/>
-        <UsageCount Value="8"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="419"/>
+        <CursorPos X="30" Y="426"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="unit1.pas"/>
@@ -133,11 +135,10 @@
       </Unit15>
       <Unit16>
         <Filename Value="C:\lazarus\components\virtualtreeview\VirtualTrees.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="29215"/>
         <CursorPos X="3" Y="29232"/>
-        <UsageCount Value="15"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="16"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\wininc\func.inc"/>
@@ -148,151 +149,156 @@
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\classes\classesh.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="93"/>
         <CursorPos X="36" Y="102"/>
-        <UsageCount Value="14"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="15"/>
       </Unit18>
       <Unit19>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="688"/>
         <CursorPos X="14" Y="703"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="C:\lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="158"/>
         <CursorPos X="61" Y="173"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\win\sysutils.pp"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="65"/>
+        <CursorPos X="11" Y="81"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit21>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="main.pas"/>
-        <Caret Line="129" Column="21" TopLine="113"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="266" TopLine="243"/>
       </Position1>
       <Position2>
-        <Filename Value="main.pas"/>
-        <Caret Line="128" Column="3" TopLine="113"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="267" TopLine="243"/>
       </Position2>
       <Position3>
-        <Filename Value="C:\lazarus\lcl\forms.pp"/>
-        <Caret Line="800" Column="14" TopLine="786"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="266" TopLine="243"/>
       </Position3>
       <Position4>
-        <Filename Value="C:\lazarus\lcl\forms.pp"/>
-        <Caret Line="703" Column="14" TopLine="688"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="267" TopLine="243"/>
       </Position4>
       <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="130" Column="48" TopLine="113"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="266" TopLine="243"/>
       </Position5>
       <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="169" Column="54" TopLine="149"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="267" TopLine="243"/>
       </Position6>
       <Position7>
-        <Filename Value="main.pas"/>
-        <Caret Line="162" Column="44" TopLine="138"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="272" TopLine="246"/>
       </Position7>
       <Position8>
-        <Filename Value="main.pas"/>
-        <Caret Line="161" Column="44" TopLine="137"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="264" Column="148" TopLine="233"/>
       </Position8>
       <Position9>
-        <Filename Value="main.pas"/>
-        <Caret Line="164" Column="44" TopLine="140"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="184" Column="38" TopLine="166"/>
       </Position9>
       <Position10>
-        <Filename Value="main.pas"/>
-        <Caret Line="163" Column="44" TopLine="139"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="53" Column="15" TopLine="36"/>
       </Position10>
       <Position11>
         <Filename Value="main.pas"/>
-        <Caret Line="164" Column="44" TopLine="140"/>
+        <Caret Line="349" Column="32" TopLine="120"/>
       </Position11>
       <Position12>
         <Filename Value="main.pas"/>
-        <Caret Line="163" Column="44" TopLine="139"/>
+        <Caret Line="296" Column="24" TopLine="291"/>
       </Position12>
       <Position13>
         <Filename Value="main.pas"/>
-        <Caret Line="164" Column="44" TopLine="140"/>
+        <Caret Line="72" Column="16" TopLine="57"/>
       </Position13>
       <Position14>
-        <Filename Value="main.pas"/>
-        <Caret Line="163" Column="44" TopLine="139"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="323" Column="29" TopLine="242"/>
       </Position14>
       <Position15>
-        <Filename Value="main.pas"/>
-        <Caret Line="162" Column="44" TopLine="138"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="49" Column="19" TopLine="33"/>
       </Position15>
       <Position16>
-        <Filename Value="main.pas"/>
-        <Caret Line="164" Column="44" TopLine="140"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="87" Column="33" TopLine="60"/>
       </Position16>
       <Position17>
-        <Filename Value="main.pas"/>
-        <Caret Line="172" Column="80" TopLine="144"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="98" TopLine="71"/>
       </Position17>
       <Position18>
-        <Filename Value="main.pas"/>
-        <Caret Line="171" Column="80" TopLine="143"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="92" TopLine="71"/>
       </Position18>
       <Position19>
-        <Filename Value="main.pas"/>
-        <Caret Line="172" Column="80" TopLine="144"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="98" TopLine="71"/>
       </Position19>
       <Position20>
-        <Filename Value="main.pas"/>
-        <Caret Line="173" Column="80" TopLine="145"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="92" TopLine="134"/>
       </Position20>
       <Position21>
-        <Filename Value="main.pas"/>
-        <Caret Line="172" Column="80" TopLine="144"/>
+        <Filename Value="syeventlogreader.pas"/>
+        <Caret Line="101" Column="11" TopLine="74"/>
       </Position21>
       <Position22>
         <Filename Value="main.pas"/>
-        <Caret Line="171" Column="80" TopLine="143"/>
+        <Caret Line="240" Column="32" TopLine="208"/>
       </Position22>
       <Position23>
         <Filename Value="main.pas"/>
-        <Caret Line="170" Column="80" TopLine="142"/>
+        <Caret Line="168" Column="3" TopLine="166"/>
       </Position23>
       <Position24>
         <Filename Value="main.pas"/>
-        <Caret Line="169" Column="80" TopLine="141"/>
+        <Caret Line="100" Column="16" TopLine="85"/>
       </Position24>
       <Position25>
         <Filename Value="main.pas"/>
-        <Caret Line="168" Column="80" TopLine="140"/>
+        <Caret Line="381" Column="20" TopLine="357"/>
       </Position25>
       <Position26>
         <Filename Value="main.pas"/>
-        <Caret Line="167" Column="80" TopLine="139"/>
+        <Caret Line="177" Column="14" TopLine="161"/>
       </Position26>
       <Position27>
         <Filename Value="main.pas"/>
-        <Caret Line="169" Column="80" TopLine="141"/>
+        <Caret Line="200" Column="3" TopLine="173"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="170" Column="80" TopLine="142"/>
+        <Caret Line="243" Column="11" TopLine="216"/>
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="169" Column="80" TopLine="141"/>
+        <Caret Line="261" Column="11" TopLine="234"/>
       </Position29>
       <Position30>
         <Filename Value="main.pas"/>
-        <Caret Line="170" Column="80" TopLine="142"/>
+        <Caret Line="381" Column="20" TopLine="354"/>
       </Position30>
     </JumpHistory>
     <RunParams>

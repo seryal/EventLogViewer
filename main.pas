@@ -11,10 +11,10 @@ uses
 
 type
 
-  { TForm1 }
+  { TfrmMain }
 
-  TForm1 = class(TForm)
-    acOpenLog: TAction;
+  TfrmMain = class(TForm)
+    acSystemLog: TAction;
     acOpenFile: TAction;
     acSaveLog: TAction;
     acClearLog: TAction;
@@ -27,6 +27,12 @@ type
     acShowHeaders: TAction;
     acShowStatus: TAction;
     acDescription: TAction;
+    acApplicationLog: TAction;
+    acSecurityLog: TAction;
+    acView1_4: TAction;
+    acView1_3: TAction;
+    acView1_2: TAction;
+    acView1_6: TAction;
     ActionList1: TActionList;
     MainMenu1: TMainMenu;
     Memo1: TMemo;
@@ -37,6 +43,15 @@ type
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
+    MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
+    N3: TMenuItem;
+    MenuItem17: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -52,11 +67,20 @@ type
     StatusBar1: TStatusBar;
     Timer1: TTimer;
     vtEventLog: TVirtualStringTree;
+    procedure acApplicationLogExecute(Sender: TObject);
+    procedure acClearLogExecute(Sender: TObject);
     procedure acDescriptionExecute(Sender: TObject);
     procedure acExitExecute(Sender: TObject);
     procedure acOnTopExecute(Sender: TObject);
+    procedure acOpenFileExecute(Sender: TObject);
+    procedure acSecurityLogExecute(Sender: TObject);
     procedure acShowHeadersExecute(Sender: TObject);
     procedure acShowStatusExecute(Sender: TObject);
+    procedure acSystemLogExecute(Sender: TObject);
+    procedure acView1_2Execute(Sender: TObject);
+    procedure acView1_3Execute(Sender: TObject);
+    procedure acView1_4Execute(Sender: TObject);
+    procedure acView1_6Execute(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -72,6 +96,8 @@ type
   private
     FMenuVisible: boolean;
     procedure SetMenuVisible(AValue: boolean);
+    procedure SetWindowsHeigth(APart: integer);
+    procedure StartLog;
   private
     FEventlog: TsyEventLogReader;
     FFormatSettings: TFormatSettings;
@@ -86,15 +112,15 @@ type
   end;
 
 var
-  Form1: TForm1;
+  frmMain: TfrmMain;
 
 implementation
 
 {$R *.lfm}
 
-{ TForm1 }
+{ TfrmMain }
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   vtEventLog.NodeDataSize := sizeof(TsyEventLogRecord);
   FFormatSettings := DefaultFormatSettings;
@@ -102,7 +128,7 @@ begin
   FLastFocusFlag := True;
 end;
 
-procedure TForm1.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssAlt in Shift) then
   begin
@@ -119,17 +145,17 @@ end;
 
 
 
-procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   FreeAndNil(FEventlog);
 end;
 
-procedure TForm1.acExitExecute(Sender: TObject);
+procedure TfrmMain.acExitExecute(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm1.acOnTopExecute(Sender: TObject);
+procedure TfrmMain.acOnTopExecute(Sender: TObject);
 begin
   if acOnTop.Checked then
     FormStyle := fsSystemStayOnTop
@@ -138,7 +164,21 @@ begin
 
 end;
 
-procedure TForm1.acShowHeadersExecute(Sender: TObject);
+procedure TfrmMain.acOpenFileExecute(Sender: TObject);
+begin
+
+end;
+
+procedure TfrmMain.acSecurityLogExecute(Sender: TObject);
+begin
+  FEventlog.Stop;
+  vtEventLog.Clear;
+  FEventlog.LogName := 'Security';
+    StartLog;
+end;
+
+
+procedure TfrmMain.acShowHeadersExecute(Sender: TObject);
 begin
   if acShowHeaders.Checked then
     vtEventLog.Header.Options := vtEventLog.Header.Options + [hoVisible]
@@ -147,41 +187,87 @@ begin
 
 end;
 
-procedure TForm1.acShowStatusExecute(Sender: TObject);
+procedure TfrmMain.acShowStatusExecute(Sender: TObject);
 begin
   StatusBar1.Visible := acShowStatus.Checked;
 end;
 
-procedure TForm1.acDescriptionExecute(Sender: TObject);
+procedure TfrmMain.acSystemLogExecute(Sender: TObject);
+begin
+  FEventlog.Stop;
+  vtEventLog.Clear;
+  FEventlog.LogName := 'System';
+  StartLog;
+
+end;
+
+procedure TfrmMain.acView1_2Execute(Sender: TObject);
+begin
+  SetWindowsHeigth(2);
+end;
+
+procedure TfrmMain.acView1_3Execute(Sender: TObject);
+begin
+  SetWindowsHeigth(3);
+
+end;
+
+procedure TfrmMain.acView1_4Execute(Sender: TObject);
+begin
+  SetWindowsHeigth(4);
+
+end;
+
+procedure TfrmMain.acView1_6Execute(Sender: TObject);
+begin
+  SetWindowsHeigth(6);
+
+end;
+
+procedure TfrmMain.acDescriptionExecute(Sender: TObject);
 begin
   pnlDescription.Visible := acDescription.Checked;
+  //  pnlDescription.Height := 0;
   if acDescription.Checked then
     Splitter1.Height := 5
   else
-    Splitter1.Height := 0;
+    Splitter1.Height := 1;
+
+end;
+
+procedure TfrmMain.acApplicationLogExecute(Sender: TObject);
+begin
+  FEventlog.Stop;
+  vtEventLog.Clear;
+  FEventlog.LogName := 'Application';
+  StartLog;
+end;
+
+procedure TfrmMain.acClearLogExecute(Sender: TObject);
+begin
 
 end;
 
 
 
-procedure TForm1.FormShow(Sender: TObject);
+procedure TfrmMain.FormShow(Sender: TObject);
 begin
   FEventlog := TsyEventLogReader.Create;
   FEventlog.ComputerName := '';
-  FEventlog.LogName := 'Application';
+  FEventlog.LogName := 'System';
   FEventlog.OnEventLogRecord := @OnEventLogRecord;
   FEventlog.OnBeginUpdate := @OnBeginUpdate;
   FEventlog.OnEndUpdate := @OnEndUpdate;
-  FEventlog.Start;
+  StartLog;
   MenuVisible := False;
 end;
 
-procedure TForm1.Timer1Timer(Sender: TObject);
+procedure TfrmMain.Timer1Timer(Sender: TObject);
 begin
   FEventlog.Proceed;
 end;
 
-procedure TForm1.vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
+procedure TfrmMain.vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
   Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
 var
   Data: PsyEventLogRecord;
@@ -209,7 +295,7 @@ begin
   TargetCanvas.FillRect(CellRect);
 end;
 
-procedure TForm1.vtEventLogDblClick(Sender: TObject);
+procedure TfrmMain.vtEventLogDblClick(Sender: TObject);
 begin
   if not acDescription.Checked then
   begin
@@ -218,7 +304,7 @@ begin
   end;
 end;
 
-procedure TForm1.vtEventLogFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
+procedure TfrmMain.vtEventLogFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
 var
   Data: PsyEventLogRecord;
 begin
@@ -231,7 +317,7 @@ begin
     Memo1.Lines.Text := Data^.MessageText;
 end;
 
-procedure TForm1.vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+procedure TfrmMain.vtEventLogFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
 var
   Data: PsyEventLogRecord;
 begin
@@ -242,8 +328,8 @@ begin
   Data^.MessageText := '';
 end;
 
-procedure TForm1.vtEventLogGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: string);
+procedure TfrmMain.vtEventLogGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+  TextType: TVSTTextType; var CellText: string);
 var
   Data: PsyEventLogRecord;
 begin
@@ -264,7 +350,7 @@ begin
   end;
 end;
 
-procedure TForm1.SetMenuVisible(AValue: boolean);
+procedure TfrmMain.SetMenuVisible(AValue: boolean);
 begin
   FMenuVisible := AValue;
   MenuItem1.Visible := AValue;
@@ -272,9 +358,37 @@ begin
   MenuItem11.Visible := AValue;
 end;
 
+procedure TfrmMain.SetWindowsHeigth(APart: integer);
+var
+  mW, mH: integer;
+  clSize: integer;
+  clCaption: integer;
+begin
+  clSize := GetSystemMetrics(SM_CYSIZEFRAME);
+  clCaption := GetSystemMetrics(SM_CYCAPTION);
+  mh := Screen.WorkAreaHeight - clSize - clCaption;
+  mw := screen.WorkAreaWidth;
+  Left := 0 - clSize;
+  top := mh - trunc(mH / APart);
+  Width := mw;
+  Height := trunc(mH / APart);
+
+end;
+
+procedure TfrmMain.StartLog;
+begin
+  try
+    FEventlog.Start;
+
+  except
+    on e: Exception do
+      ShowMessage(e.Message);
+  end;
+end;
 
 
-procedure TForm1.OnEventLogRecord(Sender: TObject; ALogRecord: TsyEventLogRecord);
+
+procedure TfrmMain.OnEventLogRecord(Sender: TObject; ALogRecord: TsyEventLogRecord);
 var
   Node: PVirtualNode;
   Data: PsyEventLogRecord;
@@ -286,12 +400,12 @@ begin
   //  Memo1.Lines.Add(AMessage);
 end;
 
-procedure TForm1.OnBeginUpdate(Sender: TObject);
+procedure TfrmMain.OnBeginUpdate(Sender: TObject);
 begin
   vtEventLog.BeginUpdate;
 end;
 
-procedure TForm1.OnEndUpdate(Sender: TObject);
+procedure TfrmMain.OnEndUpdate(Sender: TObject);
 begin
   vtEventLog.EndUpdate;
   if FLastFocusFlag then
@@ -301,12 +415,11 @@ begin
     vtEventLog.Selected[vtEventLog.GetLast()] := True;
   end;
   vtEventLog.Refresh;
-  StatusBar1.Panels.Items[0].Text := IntToStr(FEventlog.EventCount);
+  StatusBar1.Panels.Items[0].Text := 'Events: ' + IntToStr(FEventlog.EventCount);
 
 end;
 
 end.
-
 
 
 
