@@ -9,6 +9,9 @@ uses
   ComCtrls, ExtCtrls, Menus, ActnList, PairSplitter, Windows, syeventlogreader,
   VirtualTrees, AnchorDockPanel;
 
+resourcestring
+  SY_CAPTION_STR = 'Event Log Viewer';
+
 type
 
   { TfrmMain }
@@ -26,9 +29,10 @@ type
     acOnTop: TAction;
     acShowHeaders: TAction;
     acShowStatus: TAction;
-    acDescription: TAction;
+    acShowDescription: TAction;
     acApplicationLog: TAction;
     acSecurityLog: TAction;
+    acShowMenu: TAction;
     acView1_4: TAction;
     acView1_3: TAction;
     acView1_2: TAction;
@@ -50,6 +54,12 @@ type
     MenuItem21: TMenuItem;
     MenuItem22: TMenuItem;
     MenuItem23: TMenuItem;
+    MenuItem24: TMenuItem;
+    MenuItem25: TMenuItem;
+    MenuItem26: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem28: TMenuItem;
+    MenuItem29: TMenuItem;
     N3: TMenuItem;
     MenuItem17: TMenuItem;
     MenuItem2: TMenuItem;
@@ -63,14 +73,16 @@ type
     N2: TMenuItem;
     N1: TMenuItem;
     pnlDescription: TPanel;
+    PopupMenu1: TPopupMenu;
     Splitter1: TSplitter;
     StatusBar1: TStatusBar;
     Timer1: TTimer;
     vtEventLog: TVirtualStringTree;
     procedure acApplicationLogExecute(Sender: TObject);
     procedure acClearLogExecute(Sender: TObject);
-    procedure acDescriptionExecute(Sender: TObject);
+    procedure acShowDescriptionExecute(Sender: TObject);
     procedure acExitExecute(Sender: TObject);
+    procedure acShowMenuExecute(Sender: TObject);
     procedure acOnTopExecute(Sender: TObject);
     procedure acOpenFileExecute(Sender: TObject);
     procedure acSecurityLogExecute(Sender: TObject);
@@ -83,7 +95,7 @@ type
     procedure acView1_6Execute(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure vtEventLogBeforeCellPaint(Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
@@ -128,7 +140,7 @@ begin
   FLastFocusFlag := True;
 end;
 
-procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+procedure TfrmMain.FormKeyUp(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
   if (ssAlt in Shift) then
   begin
@@ -137,9 +149,10 @@ begin
   end;
   if (key = VK_ESCAPE) then
   begin
-    acDescription.Checked := False;
-    acDescriptionExecute(self);
-    MenuVisible := False;
+    acShowDescription.Checked := False;
+    acShowDescriptionExecute(self);
+    acShowMenu.Checked := False;
+    acShowMenuExecute(Self);
   end;
 end;
 
@@ -153,6 +166,11 @@ end;
 procedure TfrmMain.acExitExecute(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfrmMain.acShowMenuExecute(Sender: TObject);
+begin
+  MenuVisible := acShowMenu.Checked;
 end;
 
 procedure TfrmMain.acOnTopExecute(Sender: TObject);
@@ -174,7 +192,7 @@ begin
   FEventlog.Stop;
   vtEventLog.Clear;
   FEventlog.LogName := 'Security';
-    StartLog;
+  StartLog;
 end;
 
 
@@ -224,11 +242,11 @@ begin
 
 end;
 
-procedure TfrmMain.acDescriptionExecute(Sender: TObject);
+procedure TfrmMain.acShowDescriptionExecute(Sender: TObject);
 begin
-  pnlDescription.Visible := acDescription.Checked;
+  pnlDescription.Visible := acShowDescription.Checked;
   //  pnlDescription.Height := 0;
-  if acDescription.Checked then
+  if acShowDescription.Checked then
     Splitter1.Height := 5
   else
     Splitter1.Height := 1;
@@ -254,12 +272,12 @@ procedure TfrmMain.FormShow(Sender: TObject);
 begin
   FEventlog := TsyEventLogReader.Create;
   FEventlog.ComputerName := '';
-  FEventlog.LogName := 'System';
+  FEventlog.LogName := 'Application';
   FEventlog.OnEventLogRecord := @OnEventLogRecord;
   FEventlog.OnBeginUpdate := @OnBeginUpdate;
   FEventlog.OnEndUpdate := @OnEndUpdate;
   StartLog;
-  MenuVisible := False;
+  MenuVisible := True;
 end;
 
 procedure TfrmMain.Timer1Timer(Sender: TObject);
@@ -297,10 +315,10 @@ end;
 
 procedure TfrmMain.vtEventLogDblClick(Sender: TObject);
 begin
-  if not acDescription.Checked then
+  if not acShowDescription.Checked then
   begin
-    acDescription.Checked := True;
-    acDescriptionExecute(self);
+    acShowDescription.Checked := True;
+    acShowDescriptionExecute(self);
   end;
 end;
 
@@ -378,6 +396,7 @@ end;
 procedure TfrmMain.StartLog;
 begin
   try
+    Caption := SY_CAPTION_STR + ' - [ ' + FEventlog.LogName + ' ]';
     FEventlog.Start;
 
   except
@@ -420,6 +439,7 @@ begin
 end;
 
 end.
+
 
 
 

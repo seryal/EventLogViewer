@@ -18,11 +18,12 @@
         <ComponentName Value="frmMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="309"/>
-        <CursorPos X="20" Y="381"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="137"/>
+        <CursorPos X="33" Y="154"/>
         <UsageCount Value="67"/>
         <Bookmarks Count="1">
-          <Item0 Y="200" ID="1"/>
+          <Item0 X="9" Y="196" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -30,10 +31,9 @@
       <Unit2>
         <Filename Value="syeventlogreader.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="67"/>
-        <CursorPos Y="102"/>
+        <TopLine Value="13"/>
+        <CursorPos X="48" Y="25"/>
         <UsageCount Value="57"/>
         <Bookmarks Count="1">
           <Item0 X="24" Y="53" ID="2"/>
@@ -179,123 +179,127 @@
         <Loaded Value="True"/>
       </Unit21>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="266" TopLine="243"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="100" Column="16" TopLine="85"/>
       </Position1>
       <Position2>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="267" TopLine="243"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="381" Column="20" TopLine="357"/>
       </Position2>
       <Position3>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="266" TopLine="243"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="177" Column="14" TopLine="161"/>
       </Position3>
       <Position4>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="267" TopLine="243"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="200" Column="3" TopLine="173"/>
       </Position4>
       <Position5>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="266" TopLine="243"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="243" Column="11" TopLine="216"/>
       </Position5>
       <Position6>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="267" TopLine="243"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="261" Column="11" TopLine="234"/>
       </Position6>
       <Position7>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="272" TopLine="246"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="381" Column="20" TopLine="354"/>
       </Position7>
       <Position8>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="264" Column="148" TopLine="233"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="200" Column="16" TopLine="174"/>
       </Position8>
       <Position9>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="184" Column="38" TopLine="166"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="180" Column="18" TopLine="163"/>
       </Position9>
       <Position10>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="53" Column="15" TopLine="36"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="203" TopLine="188"/>
       </Position10>
       <Position11>
         <Filename Value="main.pas"/>
-        <Caret Line="349" Column="32" TopLine="120"/>
+        <Caret Line="103" Column="16" TopLine="88"/>
       </Position11>
       <Position12>
         <Filename Value="main.pas"/>
-        <Caret Line="296" Column="24" TopLine="291"/>
+        <Caret Line="404" Column="51" TopLine="380"/>
       </Position12>
       <Position13>
         <Filename Value="main.pas"/>
-        <Caret Line="72" Column="16" TopLine="57"/>
+        <Caret Line="142" TopLine="135"/>
       </Position13>
       <Position14>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="323" Column="29" TopLine="242"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="141" Column="30" TopLine="133"/>
       </Position14>
       <Position15>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="49" Column="19" TopLine="33"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="435" TopLine="391"/>
       </Position15>
       <Position16>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="87" Column="33" TopLine="60"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="135" TopLine="135"/>
       </Position16>
       <Position17>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="98" TopLine="71"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="89" TopLine="74"/>
       </Position17>
       <Position18>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="92" TopLine="71"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="140" Column="21" TopLine="121"/>
       </Position18>
       <Position19>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="98" TopLine="71"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="141" Column="21" TopLine="122"/>
       </Position19>
       <Position20>
-        <Filename Value="syeventlogreader.pas"/>
-        <Caret Line="101" Column="11" TopLine="74"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="143" Column="21" TopLine="124"/>
       </Position20>
       <Position21>
         <Filename Value="main.pas"/>
-        <Caret Line="240" Column="32" TopLine="208"/>
+        <Caret Line="166" Column="32" TopLine="107"/>
       </Position21>
       <Position22>
         <Filename Value="main.pas"/>
-        <Caret Line="168" Column="3" TopLine="166"/>
+        <Caret Line="273" Column="22" TopLine="246"/>
       </Position22>
       <Position23>
         <Filename Value="main.pas"/>
-        <Caret Line="100" Column="16" TopLine="85"/>
+        <Caret Line="274" Column="22" TopLine="247"/>
       </Position23>
       <Position24>
         <Filename Value="main.pas"/>
-        <Caret Line="381" Column="20" TopLine="357"/>
+        <Caret Line="275" Column="22" TopLine="248"/>
       </Position24>
       <Position25>
         <Filename Value="main.pas"/>
-        <Caret Line="177" Column="14" TopLine="161"/>
+        <Caret Line="276" Column="22" TopLine="249"/>
       </Position25>
       <Position26>
         <Filename Value="main.pas"/>
-        <Caret Line="200" Column="3" TopLine="173"/>
+        <Caret Line="277" Column="22" TopLine="250"/>
       </Position26>
       <Position27>
         <Filename Value="main.pas"/>
-        <Caret Line="243" Column="11" TopLine="216"/>
+        <Caret Line="278" Column="22" TopLine="251"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="261" Column="11" TopLine="234"/>
+        <Caret Line="279" Column="22" TopLine="252"/>
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="381" Column="20" TopLine="354"/>
+        <Caret Line="153" Column="9" TopLine="137"/>
       </Position29>
+      <Position30>
+        <Filename Value="main.pas"/>
+        <Caret Line="325" Column="38" TopLine="415"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

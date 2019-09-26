@@ -11,7 +11,7 @@ object frmMain: TfrmMain
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
-  OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
   OnShow = FormShow
   object StatusBar1: TStatusBar
     Left = 0
@@ -53,6 +53,7 @@ object frmMain: TfrmMain
         Width = 1500
       end>
     Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoShowSortGlyphs, hoVisible]
+    PopupMenu = PopupMenu1
     TabOrder = 1
     TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
     TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
@@ -154,6 +155,10 @@ object frmMain: TfrmMain
         Action = acOnTop
         AutoCheck = True
       end
+      object MenuItem24: TMenuItem
+        Action = acShowMenu
+        AutoCheck = True
+      end
       object MenuItem13: TMenuItem
         Action = acShowHeaders
         AutoCheck = True
@@ -163,7 +168,7 @@ object frmMain: TfrmMain
         AutoCheck = True
       end
       object MenuItem15: TMenuItem
-        Action = acDescription
+        Action = acShowDescription
         AutoCheck = True
       end
       object N3: TMenuItem
@@ -252,12 +257,12 @@ object frmMain: TfrmMain
       OnExecute = acShowStatusExecute
       ShortCut = 16467
     end
-    object acDescription: TAction
+    object acShowDescription: TAction
       Category = 'View'
       AutoCheck = True
       Caption = 'Show Description'
       Checked = True
-      OnExecute = acDescriptionExecute
+      OnExecute = acShowDescriptionExecute
       ShortCut = 16452
     end
     object acView1_6: TAction
@@ -293,6 +298,37 @@ object frmMain: TfrmMain
       Category = 'File'
       Caption = 'Security Log'
       OnExecute = acSecurityLogExecute
+    end
+    object acShowMenu: TAction
+      Category = 'View'
+      AutoCheck = True
+      Caption = 'ShowMenu'
+      Checked = True
+      OnExecute = acShowMenuExecute
+      ShortCut = 16461
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    left = 340
+    top = 109
+    object MenuItem25: TMenuItem
+      Caption = 'View'
+      object MenuItem26: TMenuItem
+        Action = acShowMenu
+        AutoCheck = True
+      end
+      object MenuItem27: TMenuItem
+        Action = acShowHeaders
+        AutoCheck = True
+      end
+      object MenuItem28: TMenuItem
+        Action = acShowStatus
+        AutoCheck = True
+      end
+      object MenuItem29: TMenuItem
+        Action = acShowDescription
+        AutoCheck = True
+      end
     end
   end
 end
