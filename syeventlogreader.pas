@@ -190,9 +190,9 @@ begin
         end;
         Source := PWideChar(pointer(pRecord) + SizeOf(TEventLogRecord));
         MessageDllPath := GetMessageDllPath(Source);
+        tmp := '';
         if MessageDllPath <> '' then
         begin
-          tmp := '';
           repeat
             I := Pos(';', MessageDllPath);
             if I <> 0 then
@@ -239,6 +239,7 @@ var
   res: boolean;
   tmp: string;
 begin
+  Result := '';
   reg := TRegistry.Create(KEY_READ);
   try
     reg.RootKey := HKEY_LOCAL_MACHINE;
@@ -320,7 +321,6 @@ begin
   GetOldestEventLogRecord(FEventLogHandle, @Offset);
   RecNo := FEventCount + Offset;
   ReadLog(Recno);
-
 
 
 
